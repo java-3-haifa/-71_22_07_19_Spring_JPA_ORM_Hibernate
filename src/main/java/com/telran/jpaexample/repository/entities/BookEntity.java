@@ -1,5 +1,7 @@
 package com.telran.jpaexample.repository.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -17,7 +19,7 @@ public class BookEntity {
     String title;
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST}
     )
     @JoinTable(name = "authors_books",
             joinColumns = @JoinColumn(name = "book_id"),

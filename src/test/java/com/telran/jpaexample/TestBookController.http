@@ -1,6 +1,54 @@
-# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
-#
-# Following HTTP Request Live Templates are available:
-# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
-# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
-# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+# >>>>>> Add new Books
+POST http://localhost:8080/book
+Content-Type: application/json
+
+{
+  "title": "Book1",
+  "authors": [
+    {
+      "email": "vasya@mail.com",
+      "name": "Vasya"
+    }
+  ]
+}
+
+###
+POST http://localhost:8080/book
+Content-Type: application/json
+
+{
+  "title": "Book2",
+  "authors": [
+    {
+      "email": "petya@mail.com",
+      "name": "Petya"
+    },
+    {
+      "email": "vasya@mail.com",
+      "name": "Vasya"
+    }
+  ]
+}
+
+###>>>>>
+
+### Get all books
+GET http://localhost:8080/book/all
+
+###
+
+### Get books by author
+GET http://localhost:8080/book/author/vasya@mail.com
+
+###
+
+### Get book by id
+GET http://localhost:8080/book/2
+
+###
+
+### Delete book by id
+DELETE http://localhost:8080/book/2
+
+###

@@ -42,6 +42,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
+    @Transactional
     public BookEntity findById(long id) {
         return em.find(BookEntity.class, id);
     }
@@ -53,8 +54,9 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
+    @Transactional
     public List<BookEntity> getAllBooksByAuthor(String authorEmail) {
-        TypedQuery<BookEntity> query = em.createQuery("select be from BookEntity AS be join AuthorEntity AS a where a.email = :authorEmail", BookEntity.class);
+        TypedQuery<BookEntity> query = em.createQuery("select be from BookEntity be join be.authors a where a.email = :authorEmail", BookEntity.class);
         query.setParameter("authorEmail", authorEmail);
         return query.getResultList();
     }

@@ -9,7 +9,9 @@ public class AuthorEntity {
     @Id
     String email;
     String name;
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+    )
     Collection<BookEntity> books;
 
     public String getEmail() {

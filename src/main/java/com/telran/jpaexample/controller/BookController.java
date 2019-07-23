@@ -28,6 +28,21 @@ public class BookController {
         return repository.getAllBooks().stream().map(this::toBookDto).collect(Collectors.toList());
     }
 
+    @GetMapping("author/{authorEmail}")
+    public List<BookDto> getBookByAuthor(@PathVariable("authorEmail")String authorEmail){
+        return repository.getAllBooksByAuthor(authorEmail).stream().map(this::toBookDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("{bookId}")
+    public BookDto getBookById(@PathVariable("bookId")Long bookId){
+        return toBookDto(repository.findById(bookId));
+    }
+
+    @DeleteMapping("{bookId}")
+    public void deleteBookById(@PathVariable("bookId")Long bookId){
+        repository.removeById(bookId);
+    }
+
     private BookDto toBookDto(BookEntity entity) {
         BookDto dto = new BookDto();
         dto.id = entity.getId();
@@ -42,20 +57,5 @@ public class BookController {
         dto.name = entity.getName();
         return dto;
     }
-
-    @GetMapping("authorEmail")
-    public List<BookDto> getBookByAuthor(@PathVariable("authorEmail")String authorEmail){
-        return repository.getAllBooksByAuthor(authorEmail).stream().map(this::toBookDto).collect(Collectors.toList());
-    }
-
-    @GetMapping("bookId")
-    public BookDto getBookById(@PathVariable("bookId")Long bookId){
-        return toBookDto(repository.findById(bookId));
-    }
-    @DeleteMapping("bookId")
-    public void deleteBookById(@PathVariable("bookId")Long bookId){
-        repository.removeById(bookId);
-    }
-
 
 }
