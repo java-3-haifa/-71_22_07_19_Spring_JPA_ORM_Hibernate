@@ -13,22 +13,26 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("book")
 public class BookController {
     @Autowired
     BookRepository repository;
 
-    @PostMapping()
+    @PostMapping("book")
     public void addBook(@RequestBody BookEntity book){
         repository.save(book);
     }
 
-    @GetMapping("all")
+    @PostMapping("author")
+    public void addAuthor(@RequestBody AuthorDto authorDto){
+        repository.addAuthor(authorDto.email,authorDto.name);
+    }
+
+    @GetMapping("book/all")
     public List<BookDto> getAllBooks(){
         return repository.getAllBooks().stream().map(this::toBookDto).collect(Collectors.toList());
     }
 
-    @GetMapping("author/{authorEmail}")
+    @GetMapping("book/all/{authorEmail}")
     public List<BookDto> getBookByAuthor(@PathVariable("authorEmail")String authorEmail){
         return repository.getAllBooksByAuthor(authorEmail).stream().map(this::toBookDto).collect(Collectors.toList());
     }

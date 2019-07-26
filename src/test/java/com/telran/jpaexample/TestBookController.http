@@ -1,5 +1,17 @@
+# >>>>> Add authors
+POST http://localhost:8080/author
+Content-Type: application/json
 
-# >>>>>> Add new Books
+{"email" : "petya@mail.com","name": "Petya"}
+
+###
+
+POST http://localhost:8080/author
+Content-Type: application/json
+
+{"email" : "vasya@mail.com","name": "Vasya"}
+
+### >>>>>> Add new Books
 POST http://localhost:8080/book
 Content-Type: application/json
 
@@ -7,8 +19,7 @@ Content-Type: application/json
   "title": "Book1",
   "authors": [
     {
-      "email": "vasya@mail.com",
-      "name": "Vasya"
+      "email": "vasya@mail.com"
     }
   ]
 }
@@ -21,12 +32,10 @@ Content-Type: application/json
   "title": "Book2",
   "authors": [
     {
-      "email": "petya@mail.com",
-      "name": "Petya"
+      "email": "petya@mail.com"
     },
     {
-      "email": "vasya@mail.com",
-      "name": "Vasya"
+      "email": "vasya@mail.com"
     }
   ]
 }

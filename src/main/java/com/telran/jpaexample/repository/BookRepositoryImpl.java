@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -19,14 +20,17 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     @Transactional
     public boolean save(BookEntity book) {
-        BookEntity res = null;
-        if(book.getId() != null){
-            res = em.find(BookEntity.class, book.getId());
+        List<AuthorEntity> list = new ArrayList<>();
+        for(AuthorEntity author : book.getAuthors()){
+            AuthorEntity a = em.find(AuthorEntity.class,author.getEmail());
+            if(a == null){
+                throw new RuntimeException("Author does not exist");
+            }
+            list.add(a);
         }
-        if (res != null) {
-            return false;
-        }
-        em.merge(book);
+        book.setAuthors(null);
+        em.persist(book);
+        book.setAuthors(list);
         return true;
     }
 
@@ -59,6 +63,20 @@ public class BookRepositoryImpl implements BookRepository {
         TypedQuery<BookEntity> query = em.createQuery("select be from BookEntity be join be.authors a where a.email = :authorEmail", BookEntity.class);
         query.setParameter("authorEmail", authorEmail);
         return query.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void addAuthor(String email, String name) {
+        AuthorEntity authorEntity = em.find(AuthorEntity.class,email);
+        if(authorEntity == null){
+            authorEntity = new AuthorEntity();
+            authorEntity.setEmail(email);
+            authorEntity.setName(name);
+            em.persist(authorEntity);
+            return;
+        }
+        throw new RuntimeException("Author already exist");
     }
 
 

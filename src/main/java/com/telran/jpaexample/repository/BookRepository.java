@@ -11,4 +11,6 @@ public interface BookRepository {
     BookEntity findById(long id);
     List<BookEntity> getAllBooks();
     List<BookEntity> getAllBooksByAuthor(String authorEmail);
+
+    void addAuthor(String email, String name);
 }
